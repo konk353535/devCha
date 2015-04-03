@@ -47,38 +47,58 @@ function liftOff(timer){
 }
 StartTime();
 */
-getUrfGames();
 
+
+
+var myCallback = function(data) {
+  console.log('got data: '+data);
+};
+
+var usingItNow = function(callback) {
+  callback('get it?');
+};
+
+usingItNow(myCallback);
 
 // Will get setOfUrfGames
-function getUrfGames(){
-	// Get current timer
-	epoch_timer = getEpoch();
+function getUrfGames(err, response){
+	if(err){
+		console.log(err);
+	}
+	else {
+		// Get current timer
+		epoch_timer = response;
+		console.log(epoch_timer);
+		
+		// Request Games
+		request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=' + epoch_timer + '&api_key=' + config.apikey , function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				console.log(body) // Show the HTML for the Google homepage. 
+			}
+		});
 
-	// Request Games
-	request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=' + epoch_timer + '&api_key=' + config.apikey , function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(body) // Show the HTML for the Google homepage. 
-		}
-	});
+		// Add 300 to current timer
 
-	// Add 300 to current timer
+		// Update Timer
+	}
 
-	// Update Timer
 }
+getEpoch(getUrfGames);
 
-function getEpoch(){
+function getEpoch(callback){
 	/*
 	Function gets from firebase the current epoch time to use for api calls
 	*/
 	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
 	
 	ref.on("value", function(snapshot) {
+	  // Success
 	  console.log("Current Epoch - " + snapshot.val());
-	  return snapshot.val();
+	  callback(null, snapshot.val());
+	  
 	}, function (errorObject) {
 	  console.log("The read failed: " + errorObject.code);
-	  return false;
+	  callback("Failure", null);
 	});
 }
 /*
