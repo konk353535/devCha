@@ -145,12 +145,15 @@ function Game_Extractor(match_id){
 	// Using match id
 	// Request more information
 	// Using RITO api
-
 	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/84507892?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	    console.log(body) // Show the HTML for the Google homepage. 
-	    
+	    Game_Data = JSON.parse(body);
+	    console.log("Match Type - " + Game_Data["matchType"]);
 	    // Sift through information given to get important parts (Champion: Win, Champion: Loss)
+	    var t1_Champs;
+	    var t2_Champs;
+	    var t1_won;
+
 
 	  }
 	});
