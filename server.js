@@ -56,6 +56,11 @@ getEpoch(getUrfGames);
 
 // Will get setOfUrfGames
 function getUrfGames(err, response){
+	/*
+	Using given epoch time, gets a list of urf match ids from riot api
+	With match id list, passes to game manager
+	Adds 300 to epoch timer so our next pull is {new data}
+	*/
 	if(err){
 		console.log(err);
 	}
@@ -77,7 +82,10 @@ function getUrfGames(err, response){
 		epoch_timer += 300;
 
 		// Update Timer (update firebase row)
-		
+		var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/epoch');
+		upvotesRef.transaction(function (current_value) {
+		  return (current_value || 0) + 300;
+		});
 	}
 
 }
@@ -89,7 +97,7 @@ function getEpoch(callback){
 	*/
 	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
 	
-	ref.on("value", function(snapshot) {
+	ref.once("value", function(snapshot) {
 	  // Success
 	  console.log("Current Epoch - " + snapshot.val());
 	  callback(null, snapshot.val());
@@ -141,6 +149,9 @@ function Game_Extractor(match_id){
 	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/84507892?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    console.log(body) // Show the HTML for the Google homepage. 
+	    
+	    // Sift through information given to get important parts (Champion: Win, Champion: Loss)
+
 	  }
 	});
 }
