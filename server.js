@@ -21,7 +21,72 @@ var lolClient = lol.client({
     defaultRegion: 'oce',
     cache: null
 });
+/*
+// Vars for our timer
+var NanoTimer = require('nanotimer');
+var count = 360000;
+// Functions for timer 
+function StartTime(){
+    var timer = new NanoTimer();
 
+    timer.setInterval(countDown, '', '1s');
+    timer.setTimeout(liftOff, [timer], '360000s');
+
+}
+function countDown(){
+	// Every 5 minutes this will occur
+    if(count % 300== 0){
+    	console.log("5 Minutes are over, BEGIN!");
+    	getUrfGames();
+    }
+    count--;
+}
+function liftOff(timer){
+    timer.clearInterval();
+    console.log('And we have liftoff!');
+}
+StartTime();
+*/
+getUrfGames();
+
+
+// Will get setOfUrfGames
+function getUrfGames(){
+	// Get current timer
+	epoch_timer = getEpoch();
+
+	// Request Games
+	request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=' + epoch_timer + '&api_key=' + config.apikey , function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			console.log(body) // Show the HTML for the Google homepage. 
+		}
+	});
+
+	// Add 300 to current timer
+
+	// Update Timer
+}
+
+function getEpoch(){
+	/*
+	Function gets from firebase the current epoch time to use for api calls
+	*/
+	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
+	
+	ref.on("value", function(snapshot) {
+	  console.log("Current Epoch - " + snapshot.val());
+	  return snapshot.val();
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	  return false;
+	});
+}
+/*
+if(microsecs / 1000 % 30 == 0){
+	console.log(microsecs/1000);
+}
+*/
+/*
 request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=1427896800&api_key=' + config.apikey , function (error, response, body) {
   if (!error && response.statusCode == 200) {
     console.log(body) // Show the HTML for the Google homepage. 
@@ -59,6 +124,7 @@ app.get('/summonerName/:summonerName', function(req, res){
 
 
 });
+*/
 
 // List on port 3000
 app.listen(3000);
