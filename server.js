@@ -22,6 +22,7 @@ var lolClient = lol.client({
     cache: null
 });
 
+/*
 // Vars for our timer
 var NanoTimer = require('nanotimer');
 var count = 360000;
@@ -35,10 +36,11 @@ function StartTime(){
 }
 function countDown(){
 	// Every 5 minutes this will occur
-    if(count % 300== 0){
+    if(count % 300 == 0){
     	console.log("5 Minutes are over, BEGIN!");
+    	// Working
     	// Testing if timer works with functions so far
-    	getEpoch(getUrfGames);
+    	// getEpoch(getUrfGames);
     }
     count--;
 }
@@ -47,7 +49,7 @@ function liftOff(timer){
     console.log('And we have liftoff!');
 }
 StartTime();
-
+*/
 
 
 
