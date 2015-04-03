@@ -48,17 +48,7 @@ function liftOff(timer){
 StartTime();
 */
 
-
-
-var myCallback = function(data) {
-  console.log('got data: '+data);
-};
-
-var usingItNow = function(callback) {
-  callback('get it?');
-};
-
-usingItNow(myCallback);
+getEpoch(getUrfGames);
 
 // Will get setOfUrfGames
 function getUrfGames(err, response){
@@ -68,22 +58,26 @@ function getUrfGames(err, response){
 	else {
 		// Get current timer
 		epoch_timer = response;
-		console.log(epoch_timer);
-		
+		console.log("Urf Games Recieved Epoch - " + epoch_timer);
+
 		// Request Games
 		request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=' + epoch_timer + '&api_key=' + config.apikey , function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				console.log(body) // Show the HTML for the Google homepage. 
+				// Once game list recieved, pass to game handler
+				console.log(body); // Show the HTML for the Google homepage. 
+				Game_Manager(null, body, Game_Extractor);
 			}
 		});
 
 		// Add 300 to current timer
+		epoch_timer += 300;
 
-		// Update Timer
+		// Update Timer (update firebase row)
+		
 	}
 
 }
-getEpoch(getUrfGames);
+
 
 function getEpoch(callback){
 	/*
@@ -100,6 +94,25 @@ function getEpoch(callback){
 	  console.log("The read failed: " + errorObject.code);
 	  callback("Failure", null);
 	});
+}
+
+function Game_Manager(err, response, callback){
+	/*
+	Splits all the game's we're given into single games
+	Passes each single match id to Game_Extractor for further extraction!
+	*/
+	if(err){
+		console.log(err);
+	}
+	else{
+		console.log("Game Manager got - " + response);
+	}
+}
+function Game_Extractor(match_id){
+	/*
+	Extracts the individual information from the match id
+	*/
+	console.log("Empty");
 }
 /*
 if(microsecs / 1000 % 30 == 0){
