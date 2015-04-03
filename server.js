@@ -149,6 +149,13 @@ function Game_Extractor(match_id){
 	  if (!error && response.statusCode == 200) {
 	    Game_Data = JSON.parse(body);
 	    console.log("Match Type - " + Game_Data["matchType"]);
+
+	    Players = Game_Data["participants"];
+	    // For each player in the game
+	    Players.forEach(function(player){
+	    	console.log(player["championId"]);
+	    });
+
 	    // Sift through information given to get important parts (Champion: Win, Champion: Loss)
 	    var t1_Champs;
 	    var t2_Champs;
