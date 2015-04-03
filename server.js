@@ -105,10 +105,19 @@ function Game_Manager(err, response, callback){
 		console.log(err);
 	}
 	else{
-		console.log("Game Manager got - " + response);
 		// Splitting our json into single parts
-		for(var i = 0; i<response.length; i++){
-			match_id = response[i];
+		console.log("Game Manager got - Unformatted Games");
+		// Remove [ and ]
+		response = response.replace('[', '');
+		response = response.replace(']', '');
+
+		// Split individual games apart, place in Games array
+		Games = response.split(",");
+		console.log("Game Manager - Split individual games");
+
+		// Iterate over single games
+		for(var i = 0; i<Games.length; i++){
+			match_id = Games[i];
 			console.log(match_id + " sent to extractor");
 			Game_Extractor(match_id);
 		}
@@ -119,7 +128,7 @@ function Game_Extractor(match_id){
 	/*
 	Extracts the individual information from the match id
 	*/
-	console.log("Empty");
+	console.log("Extractor Recieved " + match_id);
 }
 /*
 if(microsecs / 1000 % 30 == 0){
