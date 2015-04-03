@@ -106,6 +106,13 @@ function Game_Manager(err, response, callback){
 	}
 	else{
 		console.log("Game Manager got - " + response);
+		// Splitting our json into single parts
+		for(var i = 0; i<response.length; i++){
+			match_id = response[i];
+			console.log(match_id + " sent to extractor");
+			Game_Extractor(match_id);
+		}
+		
 	}
 }
 function Game_Extractor(match_id){
