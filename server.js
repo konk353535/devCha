@@ -52,6 +52,7 @@ StartTime();
 */
 
 
+getEpoch(getUrfGames);
 
 // Will get setOfUrfGames
 function getUrfGames(err, response){
@@ -132,7 +133,28 @@ function Game_Extractor(match_id){
 	Extracts the individual information from the match id
 	*/
 	console.log("Extractor Recieved " + match_id);
+
+	// Using match id
+	// Request more information
+	// Using RITO api
+
+	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/84507892?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+	    console.log(body) // Show the HTML for the Google homepage. 
+	  }
+	});
 }
+
+
+
+
+
+
+
+
+
+
+
 /*
 if(microsecs / 1000 % 30 == 0){
 	console.log(microsecs/1000);
