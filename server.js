@@ -141,11 +141,14 @@ function Game_Extractor(match_id){
 	Extracts the individual information from the match id
 	*/
 	console.log("Extractor Recieved " + match_id);
+	var t1_Champs = [];
+	var t2_Champs = [];
+	var t1_won;
 
 	// Using match id
 	// Request more information
 	// Using RITO api
-	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/84507892?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
+	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/' + match_id + '?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    Game_Data = JSON.parse(body);
 	    console.log("Match Type - " + Game_Data["matchType"]);
@@ -153,14 +156,32 @@ function Game_Extractor(match_id){
 	    Players = Game_Data["participants"];
 	    // For each player in the game
 	    Players.forEach(function(player){
-	    	console.log(player["championId"]);
+	    	champ_id = player["championId"];
+
+	    	if(player["teamId"] == 100){
+	    		t1_Champs.push(champ_id);
+	    	}
+	    	else {
+	    		t2_Champs.push(champ_id);
+	    	}
+	    	console.log(champ_id);
 	    });
 
-	    // Sift through information given to get important parts (Champion: Win, Champion: Loss)
-	    var t1_Champs;
-	    var t2_Champs;
-	    var t1_won;
+	    // Which team won?
+	    teams = Game_Data["teams"];
+	    teams.forEach(function(team){
+	    	if(team["teamId"] == 100){
+	    		if(team["winner"] == true){ t1_won = true; }
+	    		else { t1_won = false; }
+	    	}
+	    	else{
+	    		if(team["winner"] == true){ t1_won = false; }
+	    		else { t1_won = true; }
+	    	}
+	    });
 
+	    if(t1_won == true){console.log("Team 100 Won");}
+	    else{console.log("Team 200 Won");}
 
 	  }
 	});
