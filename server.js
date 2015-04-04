@@ -135,14 +135,18 @@ function Game_Extractor(match_id){
 	// Using RITO api
 	request('https://oce.api.pvp.net/api/lol/oce/v2.2/match/' + match_id + '?includeTimeline=false&api_key=' + config.apikey , function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
+	    // Convert string data to json object
 	    Game_Data = JSON.parse(body);
 	    console.log("Match Type - " + Game_Data["matchType"]);
 
+	    // Pull participant data from json
 	    Players = Game_Data["participants"];
-	    // For each player in the game
-	    Players.forEach(function(player){
-	    	champ_id = player["championId"];
 
+	    // Iterate over each player 
+	    Players.forEach(function(player){
+	    	// Get players champion
+	    	champ_id = player["championId"];
+	    	// Depending on team push to t1/t2 array
 	    	if(player["teamId"] == 100){
 	    		t1_Champs.push(champ_id);
 	    	}
@@ -152,7 +156,8 @@ function Game_Extractor(match_id){
 	    	console.log(champ_id);
 	    });
 
-	    // Which team won?
+	    // If team 100 won, t1_won set to true, 
+	    // else t1_won set to false
 	    teams = Game_Data["teams"];
 	    teams.forEach(function(team){
 	    	if(team["teamId"] == 100){
@@ -165,48 +170,40 @@ function Game_Extractor(match_id){
 	    	}
 	    });
 
-	    // Depending on winner, make addition to our database's
+	    // Depending on winner, make addition to our db
 	    if(t1_won == true){
 	    	console.log("Team 100 Won");
 	    	// + 1 wins to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
-	    		// Update Timer (update firebase row)
+	    		// Update champ win count
 			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
-			upvotesRef.transaction(function (current_value) {
-			  return (current_value || 0) + 1;
-			});
+			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
 	    	});
 	    	// + 1 losses to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
-	    		// Update Timer (update firebase row)
+	    		// Update champ loss count
 			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
-			upvotesRef.transaction(function (current_value) {
-			  return (current_value || 0) + 1;
-			});
+			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
 	    	});
 	    }
 	    else{
 	    	console.log("Team 200 Won");
 	    	// + 1 wins to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
-	    		// Update Timer (update firebase row)
+	    		// Update champ win count
 			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
-			upvotesRef.transaction(function (current_value) {
-			  return (current_value || 0) + 1;
-			});
+			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
 	    	});
 	    	// + 1 losses to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
-	    		// Update Timer (update firebase row)
+	    		// Update champ loss count
 			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
-			upvotesRef.transaction(function (current_value) {
-			  return (current_value || 0) + 1;
-			});
+			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
 	    	});
 	    }
-
 	  }
 	});
+
 }
 
 // List on port 3000
