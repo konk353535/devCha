@@ -47,9 +47,9 @@ StartTime();
 
 function getUrfGames(err, response){
 	/*
-	Using given epoch time, gets a list of urf match ids from riot api
-	With match id list, passes to game manager
-	Adds 300 to epoch timer so our next pull is {new data}
+	Given epoch time, retrieve list of match ids
+	Pass list of match id's to Game_Manager 
+	Adds 300s to epoch (so we get new set of games next run)
 	*/
 	if(err){
 		console.log(err);
