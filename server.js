@@ -22,7 +22,7 @@ var lolClient = lol.client({
     cache: null
 });
 
-/*
+
 // Vars for our timer
 var NanoTimer = require('nanotimer');
 var count = 360000;
@@ -36,7 +36,7 @@ function StartTime(){
 }
 function countDown(){
 	// Every 5 minutes this will occur
-    if(count % 300 == 0){
+    if(count % 30 == 0){
     	console.log("5 Minutes are over, BEGIN!");
     	// Working
     	// Testing if timer works with functions so far
@@ -49,7 +49,7 @@ function liftOff(timer){
     console.log('And we have liftoff!');
 }
 StartTime();
-*/
+
 
 
 getEpoch(getUrfGames);
@@ -180,8 +180,45 @@ function Game_Extractor(match_id){
 	    	}
 	    });
 
-	    if(t1_won == true){console.log("Team 100 Won");}
-	    else{console.log("Team 200 Won");}
+	    // Depending on winner, make addition to our database's
+	    if(t1_won == true){
+	    	console.log("Team 100 Won");
+	    	// + 1 wins to all champs in team 100
+	    	t1_Champs.forEach(function(champ){
+	    		// Update Timer (update firebase row)
+			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
+			upvotesRef.transaction(function (current_value) {
+			  return (current_value || 0) + 1;
+			});
+	    	});
+	    	// + 1 losses to all champs in team 200
+	    	t2_Champs.forEach(function(champ){
+	    		// Update Timer (update firebase row)
+			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
+			upvotesRef.transaction(function (current_value) {
+			  return (current_value || 0) + 1;
+			});
+	    	});
+	    }
+	    else{
+	    	console.log("Team 200 Won");
+	    	// + 1 wins to all champs in team 200
+	    	t2_Champs.forEach(function(champ){
+	    		// Update Timer (update firebase row)
+			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
+			upvotesRef.transaction(function (current_value) {
+			  return (current_value || 0) + 1;
+			});
+	    	});
+	    	// + 1 losses to all champs in team 100
+	    	t1_Champs.forEach(function(champ){
+	    		// Update Timer (update firebase row)
+			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
+			upvotesRef.transaction(function (current_value) {
+			  return (current_value || 0) + 1;
+			});
+	    	});
+	    }
 
 	  }
 	});
