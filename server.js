@@ -40,13 +40,11 @@ function liftOff(timer){
     timer.clearInterval();
     console.log('And we have liftoff!');
 }
+
 StartTime();
 
 
 
-// getEpoch(getUrfGames);
-
-// Will get setOfUrfGames
 function getUrfGames(err, response){
 	/*
 	Using given epoch time, gets a list of urf match ids from riot api
@@ -61,25 +59,21 @@ function getUrfGames(err, response){
 		epoch_timer = response;
 		console.log("Urf Games Recieved Epoch - " + epoch_timer);
 
-		// Request Games
+		// Request Games From Dev Challenge End Point
 		request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=' + epoch_timer + '&api_key=' + config.apikey , function (error, response, body) {
 			if (!error && response.statusCode == 200) {
+				console.log(body);
 				// Once game list recieved, pass to game handler
-				console.log(body); // Show the HTML for the Google homepage. 
 				Game_Manager(null, body, Game_Extractor);
 			}
 		});
 
-		// Add 300 to current timer
-		epoch_timer += 300;
-
-		// Update Timer (update firebase row)
+		// Update Timer (update firebase field)
 		var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/epoch');
 		upvotesRef.transaction(function (current_value) {
 		  return (current_value || 0) + 300;
 		});
 	}
-
 }
 
 
