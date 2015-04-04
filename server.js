@@ -123,6 +123,7 @@ function Game_Manager(err, response, callback){
 function Game_Extractor(match_id){
 	/*
 	Extracts the individual information from the match id
+	Updates firebase db depending on - champ Id - Win/loss
 	*/
 	console.log("Extractor Recieved " + match_id);
 	var t1_Champs = [];
