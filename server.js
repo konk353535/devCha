@@ -14,14 +14,6 @@ var request = require('request');
 var Firebase = require("firebase");
 var myFirebaseRef = new Firebase("https://boiling-inferno-4886.firebaseio.com/");
 
-// lol-js for riot api calls
-var lol = require('lol-js');
-var lolClient = lol.client({
-    apiKey: config.apikey,
-    defaultRegion: 'oce',
-    cache: null
-});
-
 
 // Vars for our timer
 var NanoTimer = require('nanotimer');
@@ -40,7 +32,7 @@ function countDown(){
     	console.log("5 Minutes are over, BEGIN!");
     	// Working
     	// Testing if timer works with functions so far
-    	// getEpoch(getUrfGames);
+    	getEpoch(getUrfGames);
     }
     count--;
 }
@@ -52,7 +44,7 @@ StartTime();
 
 
 
-getEpoch(getUrfGames);
+// getEpoch(getUrfGames);
 
 // Will get setOfUrfGames
 function getUrfGames(err, response){
@@ -223,61 +215,6 @@ function Game_Extractor(match_id){
 	  }
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-if(microsecs / 1000 % 30 == 0){
-	console.log(microsecs/1000);
-}
-*/
-/*
-request('https://oce.api.pvp.net/api/lol/oce/v4.1/game/ids?beginDate=1427896800&api_key=' + config.apikey , function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    console.log(body) // Show the HTML for the Google homepage. 
-  }
-})
-
-// Example pushing of data to fire base
-myFirebaseRef.push({
-  name: "Jason",
-});
-
-
-// Example getting data from fire base (request might be easier...?)
-var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/");
-// Attach an asynchronous callback to read the data at our posts reference
-ref.on("value", function(snapshot) {
-  console.log(snapshot.val());
-}, function (errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-
-
-// Once click from client, calls this route
-app.get('/summonerName/:summonerName', function(req, res){
-	var sn = req.params.summonerName;
-	console.log(sn);
-
-	// Example use of lol-js
-	lolClient.getChampionById(53, {champData: ['all']}, function(err, data) {
-	    console.log("Found ", data.name);
-	    lolClient.destroy();
-	    res.writeHead(200, {"Content-Type": "text/plain"});
-	    res.end("Hello Connect");
-	});
-
-
-});
-*/
 
 // List on port 3000
 app.listen(3000);
