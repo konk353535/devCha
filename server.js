@@ -30,8 +30,6 @@ function countDown(){
 	// Every 5 minutes this will occur
     if(count % 30 == 0){
     	console.log("5 Minutes are over, BEGIN!");
-    	// Working
-    	// Testing if timer works with functions so far
     	getEpoch(getUrfGames);
     }
     count--;
