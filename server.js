@@ -57,7 +57,7 @@ function liftOff(timer){
     console.log('And we have liftoff!');
 }
 
-// StartTime();
+StartTime();
 
 // Starting implementing the mongo db, over the fire base db
 // Actually working on mongo version of devCha
@@ -97,10 +97,12 @@ function getUrfGames(err, response){
 		});
 
 		// Update Timer (update firebase field)
+		/*
 		var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/epoch');
 		upvotesRef.transaction(function (current_value) {
 		  return (current_value || 0) + 300;
 		});
+		*/
 	}
 }
 
@@ -109,7 +111,7 @@ function getEpoch(callback){
 	/*
 	Function gets from firebase the current epoch time to use for api calls
 	*/
-	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
+	/*var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
 	
 	ref.once("value", function(snapshot) {
 	  // Success
@@ -120,6 +122,8 @@ function getEpoch(callback){
 	  console.log("The read failed: " + errorObject.code);
 	  callback("Failure", null);
 	});
+	*/
+	callback(null, 1428068400);
 }
 
 function Game_Manager(err, response, callback){
@@ -206,14 +210,18 @@ function Game_Extractor(match_id){
 	    	// + 1 wins to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
 	    		// Update champ win count
-			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
-			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
+			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
+				if(err) return handleError(err);
+				console.log("Success");
+			});
 	    	});
 	    	// + 1 losses to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
 	    		// Update champ loss count
-			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
-			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
+			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
+				if(err) return handleError(err);
+				console.log("Success");
+			});
 	    	});
 	    }
 	    else{
@@ -221,14 +229,18 @@ function Game_Extractor(match_id){
 	    	// + 1 wins to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
 	    		// Update champ win count
-			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/wins');
-			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
+			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
+				if(err) return handleError(err);
+				console.log("Success");
+			});
 	    	});
 	    	// + 1 losses to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
 	    		// Update champ loss count
-			var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/champion/' + champ + '/losses');
-			upvotesRef.transaction(function (current_value) { return (current_value || 0) + 1; });
+			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
+				if(err) return handleError(err);
+				console.log("Success");
+			});
 	    	});
 	    }
 	  }
