@@ -28,14 +28,12 @@ var ChampionSchema = mongoose.Schema({
   , losses   :  { type: Number, min: 0, index: true }
   , id   :  { type: Number, min: 0, index: false }
 });
+var Champion = mongoose.model('Champion', ChampionSchema);
 
 // Define Epoch Schema
 var EpocherSchema = mongoose.Schema({
 	CurrentEpoch: {type:Number, min: 0}
 });
-
-var Champion = mongoose.model('Champion', ChampionSchema);
-
 var CurrentEpoch = mongoose.model('Epocher', EpocherSchema);
 
 // Vars for our timer
@@ -61,6 +59,8 @@ function liftOff(timer){
     timer.clearInterval();
     console.log('And we have liftoff!');
 }
+
+
 
 StartTime();
 
@@ -101,13 +101,13 @@ function getUrfGames(err, response){
 			}
 		});
 
+		var EpochId = "55213867fc92d4693fb1d0a0";
+
 		// Update Timer (update firebase field)
-		/*
-		var upvotesRef = new Firebase('https://boiling-inferno-4886.firebaseio.com/epoch');
-		upvotesRef.transaction(function (current_value) {
-		  return (current_value || 0) + 300;
+		CurrentEpoch.update({"CurrentEpoch": {$gt:0}}, { $inc: { CurrentEpoch: 300}}, function(err, newInfo){
+			if(err) return handleError(err);
+			console.log(newInfo);
 		});
-		*/
 	}
 }
 
@@ -116,19 +116,14 @@ function getEpoch(callback){
 	/*
 	Function gets from firebase the current epoch time to use for api calls
 	*/
-	/*var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/epoch");
-	
-	ref.once("value", function(snapshot) {
-	  // Success
-	  console.log("Current Epoch - " + snapshot.val());
-	  callback(null, snapshot.val());
-	  
-	}, function (errorObject) {
-	  console.log("The read failed: " + errorObject.code);
-	  callback("Failure", null);
+	CurrentEpoch.find(function (err, CurrentEpoch) {
+	  if (err) return console.error(err);
+	  EpochJson = CurrentEpoch[0];
+	  CurrentEpochTime = EpochJson["CurrentEpoch"];
+	  callback(null, CurrentEpochTime);
 	});
-	*/
-	callback(null, 1428068400);
+
+	
 }
 
 function Game_Manager(err, response, callback){
@@ -217,7 +212,6 @@ function Game_Extractor(match_id){
 	    		// Update champ win count
 			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
-				console.log("Success");
 			});
 	    	});
 	    	// + 1 losses to all champs in team 200
@@ -225,7 +219,6 @@ function Game_Extractor(match_id){
 	    		// Update champ loss count
 			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
-				console.log("Success");
 			});
 	    	});
 	    }
@@ -236,7 +229,6 @@ function Game_Extractor(match_id){
 	    		// Update champ win count
 			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
-				console.log("Success");
 			});
 	    	});
 	    	// + 1 losses to all champs in team 100
@@ -244,7 +236,6 @@ function Game_Extractor(match_id){
 	    		// Update champ loss count
 			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
-				console.log("Success");
 			});
 	    	});
 	    }
