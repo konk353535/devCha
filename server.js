@@ -14,6 +14,22 @@ var request = require('request');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/champions');
 
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  // yay!
+  console.log("Yay!");
+});
+
+// Define schema
+var ChampionSchema = mongoose.Schema({
+    name  :  { type: String, default: 'hahaha' }
+  , wins   :  { type: Number, min: 0, index: true }
+  , losses   :  { type: Number, min: 0, index: true }
+});
+
+
+
 // Vars for our timer
 var NanoTimer = require('nanotimer');
 var count = 360000;
@@ -38,7 +54,7 @@ function liftOff(timer){
     console.log('And we have liftoff!');
 }
 
-StartTime();
+// StartTime();
 
 // Starting implementing the mongo db, over the fire base db
 // Actually working on mongo version of devCha
