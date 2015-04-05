@@ -41,6 +41,21 @@ function liftOff(timer){
 
 StartTime();
 
+app.get('/getGameData', function(req, res){
+	
+	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/champion");
+	
+	ref.once("value", function(snapshot) {
+	  // Success
+	  res.json(snapshot.val());
+	  
+	}, function (errorObject) {
+	  console.log("The read failed: " + errorObject.code);
+	  //callback("Failure", null);
+	});
+	
+});
+
 
 
 function getUrfGames(err, response){
