@@ -28,6 +28,20 @@ var ChampionSchema = mongoose.Schema({
   , losses   :  { type: Number, min: 0, index: true }
 });
 
+var Champion = mongoose.model('Champion', ChampionSchema);
+
+var Teemo = new Champion({name: 'Darius', wins: 0, losses: 0});
+
+Teemo.save(function (err, Teemo) {
+  if (err) return console.error(err);
+  champSaved();
+});
+function champSaved(){
+	Champion.find(function (err, Champion) {
+	  if (err) return console.error(err);
+	  console.log(Champion)
+	});
+}
 
 
 // Vars for our timer
