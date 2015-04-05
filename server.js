@@ -29,9 +29,14 @@ var ChampionSchema = mongoose.Schema({
   , id   :  { type: Number, min: 0, index: false }
 });
 
+// Define Epoch Schema
+var EpocherSchema = mongoose.Schema({
+	CurrentEpoch: {type:Number, min: 0}
+});
+
 var Champion = mongoose.model('Champion', ChampionSchema);
 
-
+var CurrentEpoch = mongoose.model('Epocher', EpocherSchema);
 
 // Vars for our timer
 var NanoTimer = require('nanotimer');
