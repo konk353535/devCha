@@ -4,12 +4,12 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 
 // Pulls list of games
 $scope.pullGame = function() {
-  var summonerName = $scope.game.name;
-  console.log(summonerName);
-
-  $http.get('/summonerName/' + summonerName).success(function(response) {
+  console.log("Here");
+  $http.get('/getGameData').success(function(response) {
     console.log(response);
+    $scope.championlist = response;
   });
+
 };  
 
 

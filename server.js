@@ -42,6 +42,8 @@ function liftOff(timer){
 StartTime();
 
 // Starting implementing the mongo db, over the fire base db
+// Actually working on mongo version of devCha
+
 app.get('/getGameData', function(req, res){
 	
 	var ref = new Firebase("https://boiling-inferno-4886.firebaseio.com/champion");
