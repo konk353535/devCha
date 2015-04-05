@@ -12,7 +12,10 @@ $scope.pullGame = function() {
 
 };  
 
-
+// Orders by total games
+$scope.getTotalGames = function(champion) {
+   return champion.wins + champion.losses;
+};
 
 
 
