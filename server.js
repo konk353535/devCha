@@ -10,10 +10,9 @@ app.use(express.static(__dirname + "/public"));
 var http = require('http');
 var request = require('request');
 
-// Firebase for database
-var Firebase = require("firebase");
-var myFirebaseRef = new Firebase("https://boiling-inferno-4886.firebaseio.com/");
-
+// Mongoose DB connection
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/champions');
 
 // Vars for our timer
 var NanoTimer = require('nanotimer');
