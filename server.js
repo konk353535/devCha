@@ -68,10 +68,11 @@ StartTime();
 // Actually working on mongo version of devCha
 
 app.get('/getGameData', function(req, res){
-	
-	Champion.find(function (err, Champion) {
+
+	Champion.find().sort({wins: -1}).exec(function (err, ChampionData) {
 	  if (err) return console.error(err);
-	  res.json(Champion)
+	  console.log(ChampionData);
+	  res.json(ChampionData)
 	});
 
 });
