@@ -193,36 +193,13 @@ function Game_Extractor(match_id){
 	    var whoWon = require('./whoWon.js');
 	    t1_won = whoWon.t1_won(teams);
 
+	    // Require module to update champ stats (win, losses)
+	    var champUpdater = require('./updateChampData.js');
 
-	    // Depending on winner, make addition to our db
-	    if(t1_won == true){
-	    	// + 1 wins to all champs in team 100
-	    	t1_Champs.forEach(function(champ){
-			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
-				if(err) return handleError(err);
-			});
-	    	});
-	    	// + 1 losses to all champs in team 200
-	    	t2_Champs.forEach(function(champ){
-			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
-				if(err) return handleError(err);
-			});
-	    	});
-	    }
-	    else{
-	    	// + 1 wins to all champs in team 200
-	    	t2_Champs.forEach(function(champ){
-			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
-				if(err) return handleError(err);
-			});
-	    	});
-	    	// + 1 losses to all champs in team 100
-	    	t1_Champs.forEach(function(champ){
-			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
-				if(err) return handleError(err);
-			});
-	    	});
-	    }
+	    // Update both teams champions
+	    champUpdater.updateChamps(t1_Champs, t1_won, Champion);
+	    champUpdater.updateChamps(t2_Champs, !t1_won, Champion);
+
 	  }
 	});
 }
