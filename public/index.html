@@ -16,20 +16,20 @@
 <button class="btn btn-info" ng-click="pullGame()">Update</button>
 
 <h1>DevCha</h1>
-Games Tracked {{getTotal()}}
+<h3>Games Tracked: {{getTotal()/10 | number: 0}}</h3>
 <table class="table">
 	<thead >
 	<tr>
 		<th>Champion Name</th>
 		<th>Win %</th>
-		<th>Losses</th>
+		<th>Play %</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr ng-repeat="champion in championlist|orderBy:getTotalGames:true">
 		<td>{{champion.name}}</td>
 		<td>{{champion.wins / (champion.wins + champion.losses) * 100 | number : 2}}</td>
-		<td>{{champion.losses}}</td>
+		<td>{{((champion.losses+champion.wins) / getTotal()) * 1000 | number: 2}}</td>
 	</tr>
 	</tbody>
 </table>
