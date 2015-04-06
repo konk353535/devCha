@@ -189,6 +189,7 @@ function Game_Extractor(match_id){
 
 	    teams = Game_Data["teams"];
 
+	    // Require module to find which team won
 	    var whoWon = require('./whoWon.js');
 	    t1_won = whoWon.t1_won(teams);
 
