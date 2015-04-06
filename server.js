@@ -170,7 +170,6 @@ function Game_Extractor(match_id){
 	  if (!error && response.statusCode == 200) {
 	    // Convert string data to json object
 	    Game_Data = JSON.parse(body);
-	    console.log("Match Type - " + Game_Data["matchType"]);
 
 	    // Pull participant data from json
 	    Players = Game_Data["participants"];
@@ -186,15 +185,13 @@ function Game_Extractor(match_id){
 	    	else {
 	    		t2_Champs.push(champ_id);
 	    	}
-	    	console.log(champ_id);
 	    });
 
 	    teams = Game_Data["teams"];
-	    // If team 100 won, t1_won (true), else t1_won (false)
-	    teams.forEach(function(team){
-	    	if(team["teamId"] == 100){ if(team["winner"] == true){ t1_won = true; } else { t1_won = false; }}
-	    	else{ if(team["winner"] == true){ t1_won = false; } else { t1_won = true; }}
-	    });
+
+	    var whoWon = require('./whoWon.js');
+	    t1_won = whoWon.t1_won(teams);
+
 
 	    // Depending on winner, make addition to our db
 	    if(t1_won == true){
