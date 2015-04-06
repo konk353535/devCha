@@ -61,14 +61,14 @@ function liftOff(timer){
 }
 
 
-
+// Start Timer
 StartTime();
 
-// Starting implementing the mongo db, over the fire base db
-// Actually working on mongo version of devCha
 
 app.get('/getGameData', function(req, res){
-
+	/*
+	Returns ordered list of champion db (name, wins, losses) (ordered by wins)
+	*/
 	Champion.find().sort({wins: -1}).exec(function (err, ChampionData) {
 	  if (err) return console.error(err);
 	  console.log(ChampionData);
@@ -123,8 +123,6 @@ function getEpoch(callback){
 	  CurrentEpochTime = EpochJson["CurrentEpoch"];
 	  callback(null, CurrentEpochTime);
 	});
-
-	
 }
 
 function Game_Manager(err, response, callback){
