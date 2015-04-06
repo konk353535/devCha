@@ -115,10 +115,12 @@ function getUrfGames(err, response){
 
 function getEpoch(callback){
 	/*
-	Function gets from firebase the current epoch time to use for api calls
+	Function gets from mogno the current epoch time to use for api calls
 	*/
 	CurrentEpoch.find(function (err, CurrentEpoch) {
+	  // Error
 	  if (err) return console.error(err);
+	  // Got data from db
 	  EpochJson = CurrentEpoch[0];
 	  CurrentEpochTime = EpochJson["CurrentEpoch"];
 	  callback(null, CurrentEpochTime);
