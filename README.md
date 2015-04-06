@@ -1,7 +1,5 @@
-#devcha
+devCha is a predominently back-end project. It use's NodeJs and MongoDB to scan through Riot's developer challenge endpoint.
 
-devCha is a project that i decided to work on to learn the MEAN stack (Mongo, Express, Angular and Node)
+The endpoint returns a list of match id's which represent URF games. Using riots match v2.2 API it pulls data about each game, including the champions who played and which team was victorious.
 
-Using node it pulls games from the riot dev challenge endpoint, giving us the match id's of urf games
-It get's statistics from the urf games using the Riot API match v2.2 and sums up champion wins and losses and stores them in mongo db
-
+Using this data it stores the win and loss count for each champion, allowing it to generate win % and play % for champions.
