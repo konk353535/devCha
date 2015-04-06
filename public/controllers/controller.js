@@ -22,5 +22,4 @@ $scope.getTotalGames = function(champion) {
 
 
 
-
 }]);
