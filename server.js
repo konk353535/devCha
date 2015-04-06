@@ -104,7 +104,7 @@ function getUrfGames(err, response){
 
 		var EpochId = "55213867fc92d4693fb1d0a0";
 
-		// Update Timer (update firebase field)
+		// Update Timer
 		CurrentEpoch.update({"CurrentEpoch": {$gt:0}}, { $inc: { CurrentEpoch: 300}}, function(err, newInfo){
 			if(err) return handleError(err);
 			console.log(newInfo);
@@ -189,18 +189,11 @@ function Game_Extractor(match_id){
 	    	console.log(champ_id);
 	    });
 
-	    // If team 100 won, t1_won set to true, 
-	    // else t1_won set to false
 	    teams = Game_Data["teams"];
+	    // If team 100 won, t1_won (true), else t1_won (false)
 	    teams.forEach(function(team){
-	    	if(team["teamId"] == 100){
-	    		if(team["winner"] == true){ t1_won = true; }
-	    		else { t1_won = false; }
-	    	}
-	    	else{
-	    		if(team["winner"] == true){ t1_won = false; }
-	    		else { t1_won = true; }
-	    	}
+	    	if(team["teamId"] == 100){ if(team["winner"] == true){ t1_won = true; } else { t1_won = false; }}
+	    	else{ if(team["winner"] == true){ t1_won = false; } else { t1_won = true; }}
 	    });
 
 	    // Depending on winner, make addition to our db
@@ -240,7 +233,6 @@ function Game_Extractor(match_id){
 	    }
 	  }
 	});
-
 }
 
 // List on port 3000
