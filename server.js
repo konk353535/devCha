@@ -198,34 +198,28 @@ function Game_Extractor(match_id){
 
 	    // Depending on winner, make addition to our db
 	    if(t1_won == true){
-	    	console.log("Team 100 Won");
 	    	// + 1 wins to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
-	    		// Update champ win count
 			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
 			});
 	    	});
 	    	// + 1 losses to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
-	    		// Update champ loss count
 			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
 			});
 	    	});
 	    }
 	    else{
-	    	console.log("Team 200 Won");
 	    	// + 1 wins to all champs in team 200
 	    	t2_Champs.forEach(function(champ){
-	    		// Update champ win count
 			Champion.update({id:champ}, { $inc: { wins: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
 			});
 	    	});
 	    	// + 1 losses to all champs in team 100
 	    	t1_Champs.forEach(function(champ){
-	    		// Update champ loss count
 			Champion.update({id:champ}, { $inc: { losses: 1}}, function(err, newInfo){
 				if(err) return handleError(err);
 			});
