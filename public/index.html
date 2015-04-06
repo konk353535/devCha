@@ -21,14 +21,14 @@
 	<thead >
 	<tr>
 		<th>Champion Name</th>
-		<th>Wins</th>
+		<th>Win %</th>
 		<th>Losses</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr ng-repeat="champion in championlist|orderBy:getTotalGames:true">
 		<td>{{champion.name}}</td>
-		<td>{{champion.wins}}</td>
+		<td>{{champion.wins / (champion.wins + champion.losses) * 100 | number : 2}}</td>
 		<td>{{champion.losses}}</td>
 	</tr>
 	</tbody>
